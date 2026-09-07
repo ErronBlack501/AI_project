@@ -1,0 +1,76 @@
+# Python caches and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env/
+.env.*
+!.env.example
+
+# Test, coverage, and type-checker files
+.pytest_cache/
+.mypy_cache/
+.pyright/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Machine learning experiments and local artifacts
+mlruns/
+mlartifacts/
+wandb/
+checkpoints/
+models/
+*.keras
+*.h5
+*.ckpt
+*.onnx
+*.pth
+*.pt
+
+# DVC cache and local configuration
+.dvc/cache/
+.dvc/tmp/
+.dvc/config.local
+
+# Secrets and local configuration
+*.secret
+*.secrets
+secrets/
+credentials/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# Local logs and temporary files
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
