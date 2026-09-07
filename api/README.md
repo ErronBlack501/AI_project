@@ -1,20 +1,20 @@
-﻿# API FastAPI
+﻿# FastAPI API
 
-Template minimal et strict pour l'API d'inference.
+Minimal and strict template for the inference API.
 
-## Demarrage
+## Getting Started
 
 ```powershell
 uv sync
 uv run uvicorn api:app --app-dir src --reload
 ```
 
-Puis ouvrir <http://127.0.0.1:8000/docs>.
+Then open <http://127.0.0.1:8000/docs>.
 
-## Endpoint disponible
+## Available Endpoint
 
 ```text
 GET /health -> {"status":"ok"}
 ```
 
-Les schemas Pydantic refusent les champs inconnus et la coercition implicite des types.
+Pydantic schemas reject unknown fields and implicit type coercion.
