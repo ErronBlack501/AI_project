@@ -6,7 +6,7 @@ Python monorepo containing a machine learning package and a FastAPI service inte
 
 ```text
 AI_project/
-├── ai_model/              # Package du modèle ML
+├── ai_model/              # ML model package
 │   ├── pyproject.toml
 │   └── src/ai_model/
 ├── api/                   # FastAPI HTTP API
