@@ -1,6 +1,6 @@
 import fitz
 
-def extract_text_from_pdf(pdf_path: str) -> str:
+def extract_text_pdf(pdf_path: str) -> str:
     """
     Extrait le texte d'un fichier PDF.
 
