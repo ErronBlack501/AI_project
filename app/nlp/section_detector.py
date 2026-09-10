@@ -88,12 +88,12 @@ def normalize_section_title(title: str) -> str:
 
     return title
 
-def detect_section(title: str) -> str | None:
+def detect_section(line: str) -> str | None:
     """
     Détermine si une ligne correspond à un titre de section.
 
     Returns:
-        str: le nom de la section si elle est détectée, sinon None.
+        Le nom de la section si elle est détectée, sinon None.
     """
 
     normalized_line = normalize_section_title(line)
