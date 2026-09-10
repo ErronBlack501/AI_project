@@ -5,7 +5,7 @@ def extract_text_pdf(pdf_path: str) -> str:
     Extrait le texte d'un fichier PDF.
 
     Args:
-        file_path: chemin vers le fichier PDF.
+        pdf_path: chemin vers le fichier PDF.
 
     Returns:
         str: le texte extrait du PDF.
@@ -13,8 +13,11 @@ def extract_text_pdf(pdf_path: str) -> str:
 
     document = pymupdf.open(pdf_path)
     pages_text = []
+    
     for page in document:
         blocks = page.get_text("blocks")
+
+        # Tri vertical puis horizontal
         blocks.sort(key=lambda block: (block[1], block[0]))
 
         page_lines = []
