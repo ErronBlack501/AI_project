@@ -1,4 +1,4 @@
-import fitz
+import pymupdf
 
 def extract_text_pdf(pdf_path: str) -> str:
     """
@@ -10,7 +10,7 @@ def extract_text_pdf(pdf_path: str) -> str:
     Returns:
         str: le texte extrait du PDF.
     """
-    document = fitz.open(pdf_path)
+    document = pymupdf.open(pdf_path)
     pages_text = []
     for page in document:
         text = page.get_text()

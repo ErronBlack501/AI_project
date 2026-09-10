@@ -1,6 +1,6 @@
 from app.extraction.pdf_extractor import extract_text_pdf
 
-PDF_PATH = "path/to/your/cv_test.pdf"
+PDF_PATH = "data/test/cv_test.pdf"
 
 def main():
     text = extract_text_pdf(PDF_PATH)
