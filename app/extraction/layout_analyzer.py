@@ -20,7 +20,7 @@ def analyse_layout(blocks: list[dict[str, Any]]) -> dict[str, list[dict[str, Any
 
     document_width = max_x - min_x
     if document_width <= 0:
-        return {"zone_1": blocks}
+        return {"full_width": blocks}
 
     # Position approximative de la séparation des colonnes
     threshold = min_x + document_width * 0.35
@@ -36,22 +36,61 @@ def analyse_layout(blocks: list[dict[str, Any]]) -> dict[str, list[dict[str, Any
     for block in blocks:
         x0 = block["x0"]
         x1 = block["x1"]
-        block_width = x1 - x0
 
+        block_width = x1 - x0
         center_x = (x0 + x1) / 2
 
+        analyzed_block = block.copy()
+
         if block_width >= full_width_threshold:
-            zones["full_width"].append(block)
+            zone = "full_width"
         elif center_x < threshold:
-            zones["left"].append(block)
+            zone = "left"
         else:
-            zones["right"].append(block)
+            zone = "right"
+
+        analyzed_block["zone"] = zone
+        zones[zone].append(analyzed_block)
 
     # Supprime les zones vides
-    zone = {
-        name: zone
-        for name, zone in zones.items()
-        if zone
+    return {
+        name: zone_blocks
+        for name, zone_blocks in zones.items()
+        if zone_blocks
     }
 
-    return zones
+def ordonner_blocs(zones: dict[str, list[dict[str, Any]]]) -> list[dict[str, Any]]:
+    """
+    Construit un order de lecture à partir des zones détectées.
+
+    Args:
+        zones: zones produites par analyse_layout().
+
+    Returns:
+        Liste des blocs dans leur ordre de lecture.
+    """
+
+    ordered_blocks = []
+
+    # -- Ajouter les blocs de la zone full_width
+    full_width_blocks = sorted(
+        zones.get("full_width", []),
+        key=lambda block: (block["y0"], block["x0"])
+    )
+    ordered_blocks.extend(full_width_blocks)
+
+    # -- Ajouter les blocs de la zone left
+    left_blocks = sorted(
+        zones.get("left", []),
+        key=lambda block: (block["y0"], block["x0"])
+    )
+    ordered_blocks.extend(left_blocks)
+
+    # -- Ajouter les blocs de la zone right
+    right_blocks = sorted(
+        zones.get("right", []),
+        key=lambda block: (block["y0"], block["x0"])
+    )
+    ordered_blocks.extend(right_blocks)
+
+    return ordered_blocks

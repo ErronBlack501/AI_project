@@ -1,5 +1,5 @@
 from app.extraction.pdf_extractor import extract_text_pdf
-from app.extraction.layout_analyzer import analyse_layout
+from app.extraction.layout_analyzer import analyse_layout, ordonner_blocs
 
 import pymupdf
 
@@ -32,13 +32,18 @@ def get_blocks(pdf_path: str) -> list[dict]:
 
 blocks = get_blocks(PDF_PATH)
 zones = analyse_layout(blocks)
+ordered_blocks = ordonner_blocs(zones)
 
+# Affichage des zones et de l'ordre de lecture des blocs
 for zone_name, zone_blocks in zones.items():
     print("\n" + "=" * 60)
     print(f"ZONE : {zone_name.upper()}")
     print("=" * 60)
 
-    zone_blocks.sort(key=lambda block: block["y0"])
+    zone_blocks = sorted(
+        zone_blocks,
+        key=lambda block: (block["y0"], block["x0"])
+    )
 
     for block in zone_blocks:
         print(
@@ -47,3 +52,23 @@ for zone_name, zone_blocks in zones.items():
         )
 
         print(block["text"])
+
+print("Ordre de lecture des blocs :")
+
+for i, block in enumerate(ordered_blocks, start=1):
+    if block in zones.get("full_width", []):
+        zone = "full_width"
+    elif block in zones.get("left", []):
+        zone = "left"
+    elif block in zones.get("right", []):
+        zone = "right"
+    else:
+        zone = "unknown"
+
+    print(f"\nBloc {i}")
+    print(f"Zone : {zone}")
+    print(
+        f"[{block['x0']:.1f}, {block['y0']:.1f}]"
+        f" - [{block['x1']:.1f}, {block['y1']:.1f}]"
+    )
+    print(block["text"])

@@ -1,18 +1,28 @@
 import re
 
 SECTION_PATTERN = {
+    "personal_info": [
+        "PERSONAL INFORMATION",
+        "INFORMATIONS PERSONNELLES",
+        "INFORMATIONS PERSONNELLES ET COORDONNEES",
+        "PERSONAL DETAILS",
+        "PERSONAL DATA",
+    ],
+
     "contact": [
         "CONTACT",
         "COORDONNEES",
         "PERSONAL INFORMATION",
         "CONTACT INFORMATION",
     ],
+
     "education": [
         "EDUCATION",
         "EDUCATIONS",
         "FORMATION",
         "FORMATIONS",
     ],
+
     "experience": [
         "EXPERIENCE",
         "EXPÉRIENCE",
@@ -22,6 +32,7 @@ SECTION_PATTERN = {
         "WORK EXPERIENCE",
         "PROFESSIONAL EXPERIENCE",
     ],
+
     "skills": [
         "SKILLS",
         "COMPETENCES",
@@ -29,24 +40,30 @@ SECTION_PATTERN = {
         "TECHNICAL SKILLS",
         "SOFT SKILLS",
     ],
+
     "languages": [
         "LANGUAGES",
         "LANGUES",
         "LANGUE",
     ],
+
     "certifications": [
         "CERTIFICATIONS",
         "CERTIFICATS",
         "CERTIFICAT",
     ],
+
     "interrests": [
         "INTERESTS",
         "INTERETS",
         "INTÉRÊTS",
         "CENTRES D'INTERET",
         "CENTRES D'INTÉRÊT",
+        "CENTERES D'INTERETS",
+        "CENTRES D'INTÉRÊTS",
         "HOBBIES",
     ],
+
     "qualities": [
         "QUALITIES",
         "QUALITÉS",
@@ -102,5 +119,32 @@ def detect_section(line: str) -> str | None:
         for pattern in patterns:
             if normalized_line == normalize_section_title(pattern):
                 return section
+
+    return None
+
+def detect_section_in_block(text: str) -> str | None:
+    """
+    Détecte une section à partir du contenu complet d'un bloc.
+    """
+    lines = [
+        line.strip()
+        for line in text.split("\n")
+        if line.strip()
+    ]
+
+    # -- Tester chaque ligne individuellement
+    for line in lines:
+        section = detect_section(line)
+
+        if section:
+            return section
+
+    # -- Tester deux lignes consécutives
+    for i in range(len(lines) - 1):
+        combined = f"{lines[i]} {lines[i + 1]}"
+        section = detect_section(combined)
+
+        if section:
+            return section
 
     return None
