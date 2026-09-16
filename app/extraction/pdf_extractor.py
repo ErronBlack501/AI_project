@@ -3,8 +3,10 @@ import pymupdf
 def extract_text_pdf(pdf_path: str) -> str:
     """
     Extrait le texte d'un fichier PDF.
+
     Args:
         pdf_path: chemin vers le fichier PDF.
+        
     Returns:
         str: le texte extrait du PDF.
     """
